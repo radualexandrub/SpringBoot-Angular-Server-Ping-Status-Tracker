@@ -1,5 +1,6 @@
 package com.radubulai.serverpingstatustracker.service.implementation;
 
+import com.radubulai.serverpingstatustracker.ServerpingstatustrackerConfig;
 import com.radubulai.serverpingstatustracker.enumeration.Status;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
@@ -17,7 +18,7 @@ import static com.radubulai.serverpingstatustracker.enumeration.Status.SERVER_UP
 @Transactional
 @Slf4j
 public class AppServiceImpl {
-    int IS_REACHABLE_TIMEOUT_IN_MILLIS = 10000;
+    int IS_REACHABLE_TIMEOUT_IN_MILLIS = ServerpingstatustrackerConfig.getIsReachableTimeoutInMillis();
     public Status pingServerOnly(String ipAddress) throws IOException {
         log.info("Pinging Server with ipAddress={}", ipAddress);
         InetAddress inetAddress = InetAddress.getByName(ipAddress);

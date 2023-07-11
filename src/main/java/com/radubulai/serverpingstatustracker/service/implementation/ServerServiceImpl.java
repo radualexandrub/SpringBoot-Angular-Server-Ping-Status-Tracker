@@ -1,6 +1,6 @@
 package com.radubulai.serverpingstatustracker.service.implementation;
 
-import com.radubulai.serverpingstatustracker.enumeration.Status;
+import com.radubulai.serverpingstatustracker.ServerpingstatustrackerConfig;
 import com.radubulai.serverpingstatustracker.exception.ServerNotFoundException;
 import com.radubulai.serverpingstatustracker.model.Server;
 import com.radubulai.serverpingstatustracker.repository.ServerRepository;
@@ -16,7 +16,6 @@ import javax.transaction.Transactional;
 import java.io.IOException;
 import java.net.InetAddress;
 import java.util.Collection;
-import java.util.Optional;
 
 import static com.radubulai.serverpingstatustracker.enumeration.Status.*;
 
@@ -26,7 +25,7 @@ import static com.radubulai.serverpingstatustracker.enumeration.Status.*;
 @Slf4j
 public class ServerServiceImpl implements ServerServiceI {
     private final ServerRepository serverRepository;
-    int IS_REACHABLE_TIMEOUT_IN_MILLIS = 10000;
+    int IS_REACHABLE_TIMEOUT_IN_MILLIS = ServerpingstatustrackerConfig.getIsReachableTimeoutInMillis();
 
     @Override
     public Collection<Server> findAllServers() {
