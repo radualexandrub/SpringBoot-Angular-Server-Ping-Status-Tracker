@@ -13,6 +13,6 @@ public class ServerpingstatustrackerConfig {
     }
 
     public void setIsReachableTimeoutInMillis(int isReachableTimeoutInMillis) {
-        this.isReachableTimeoutInMillis = isReachableTimeoutInMillis;
+        ServerpingstatustrackerConfig.isReachableTimeoutInMillis = isReachableTimeoutInMillis;
     }
 }
