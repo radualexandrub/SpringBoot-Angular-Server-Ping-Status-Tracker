@@ -1,10 +1,28 @@
-import { Component } from '@angular/core';
+import { Component, OnInit } from '@angular/core';
+import { ServerService } from './services/server.service';
+import { Observable, catchError, map, of, startWith } from 'rxjs';
+import { AppState } from './interfaces/app-state';
+import { CustomResponse } from './interfaces/custom-response';
+import { DataState } from './enums/data-state.enum';
 
 @Component({
   selector: 'app-root',
   templateUrl: './app.component.html',
-  styleUrls: ['./app.component.css']
+  styleUrls: ['./app.component.css'],
 })
-export class AppComponent {
-  title = 'serverpingstatustracker-app';
+export class AppComponent implements OnInit {
+  appState$!: Observable<AppState<CustomResponse>>;
+  constructor(private ServerService: ServerService) {}
+
+  ngOnInit(): void {
+    this.appState$ = this.ServerService.getServersPinged$().pipe(
+      map((response) => {
+        return { dataState: DataState.LOADED_STATE, appData: response };
+      }),
+      startWith({ dataState: DataState.LOADING_STATE }),
+      catchError((error: string) => {
+        return of({ dataState: DataState.ERROR_STATE, error });
+      })
+    );
+  }
 }

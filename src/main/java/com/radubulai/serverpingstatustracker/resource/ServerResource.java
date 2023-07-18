@@ -116,7 +116,7 @@ public class ServerResource {
     }
 
     @GetMapping("/ping")
-    public ResponseEntity<Response> pingServer() throws IOException {
+    public ResponseEntity<Response> getAllServersPinged() throws IOException {
         return ResponseEntity.ok(
                 Response.builder()
                         .timeStamp(now())
