@@ -24,5 +24,5 @@ public interface ServerServiceI {
 
     Server pingServer(Long id) throws IOException;
 
-    Collection<Server> pingAllServers() throws IOException;
+    Collection<Server> pingAllServers() throws IOException, InterruptedException;
 }

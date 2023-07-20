@@ -16,6 +16,7 @@ import javax.transaction.Transactional;
 import java.io.IOException;
 import java.net.InetAddress;
 import java.util.Collection;
+import java.util.concurrent.TimeUnit;
 
 import static com.radubulai.serverpingstatustracker.enumeration.Status.*;
 
@@ -90,13 +91,14 @@ public class ServerServiceImpl implements ServerServiceI {
     }
 
     @Override
-    public Collection<Server> pingAllServers() throws IOException {
+    public Collection<Server> pingAllServers() throws IOException, InterruptedException {
         log.info("Pinging All Servers");
         Collection<Server> servers = serverRepository.findAll();
         for(Server server : servers) {
             InetAddress inetAddress = InetAddress.getByName(server.getIpAddress());
             server.setStatus(inetAddress.isReachable(IS_REACHABLE_TIMEOUT_IN_MILLIS) ? SERVER_UP : SERVER_DOWN);
             serverRepository.save(server);
+//            TimeUnit.MILLISECONDS.sleep(100);
         }
         return servers;
     }

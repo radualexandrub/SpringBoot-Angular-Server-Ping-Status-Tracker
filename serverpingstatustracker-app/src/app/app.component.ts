@@ -4,6 +4,7 @@ import { Observable, catchError, map, of, startWith } from 'rxjs';
 import { AppState } from './interfaces/app-state';
 import { CustomResponse } from './interfaces/custom-response';
 import { DataState } from './enums/data-state.enum';
+import { Status } from './enums/status.enum';
 
 @Component({
   selector: 'app-root',
@@ -12,10 +13,13 @@ import { DataState } from './enums/data-state.enum';
 })
 export class AppComponent implements OnInit {
   appState$!: Observable<AppState<CustomResponse>>;
-  constructor(private ServerService: ServerService) {}
+  readonly Status = Status;
+  readonly DataState = DataState;
+
+  constructor(private serverService: ServerService) {}
 
   ngOnInit(): void {
-    this.appState$ = this.ServerService.getServersPinged$().pipe(
+    this.appState$ = this.serverService.getServersPinged$().pipe(
       map((response) => {
         return { dataState: DataState.LOADED_STATE, appData: response };
       }),
