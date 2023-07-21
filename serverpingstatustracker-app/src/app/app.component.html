@@ -23,7 +23,7 @@
       </li>
       <li class="nav-item">
         <a class="nav-link" routerLink="/"
-          >All employees <span class="sr-only">(current)</span></a
+          >Servers <span class="sr-only">(current)</span></a
         >
       </li>
       <li class="nav-item">
@@ -48,98 +48,107 @@
       class="dark-mode-icon nav-item"
       title="Toggle between light/dark theme"
     >
-      <i class="fa fa-moon-o fa-2x mx-2"></i>
+      <i class="fa fa-moon fa-1x mx-2" style="font-size: 1.75rem"></i>
     </div>
   </div>
 </nav>
 
 <div class="container">
   <div class="table-responsive">
-    <div class="table-wrapper">
-      <ng-container
-        *ngIf="appState$ | async as appState"
-        [ngSwitch]="appState.dataState"
-      >
-        <ng-container *ngSwitchCase="DataState.LOADING_STATE">
-          <div class="col-md-12 text-center">
-            <div
-              title="Loading Servers..."
-              class="spinner-border text-info"
-              role="status"
-            ></div>
-          </div>
-        </ng-container>
-
-        <ng-container *ngSwitchCase="DataState.LOADED_STATE">
-          <table class="table table-striped table-hover" id="servers">
-            <thead>
-              <tr>
-                <th>IP Address</th>
-                <th>Name</th>
-                <th>Network</th>
-                <th>Status</th>
-                <th>Ping</th>
-                <th>Actions</th>
-              </tr>
-            </thead>
-            <tbody
-              *ngFor="
-                let server of appState.appData?.data?.servers;
-                let i = index
-              "
-            >
-              <tr>
-                <td>{{ server.ipAddress }}</td>
-                <td>{{ server.name }}</td>
-                <td>{{ server.network }}</td>
-                <td>
-                  <span
-                    class="badge"
-                    [ngClass]="[
-                      server.status === Status.SERVER_UP
-                        ? ' badge-success'
-                        : ' badge-danger'
-                    ]"
-                  >
-                    {{
-                      server.status === Status.SERVER_UP
-                        ? "SERVER UP"
-                        : "SERVER DOWN"
-                    }}
-                  </span>
-                </td>
-                <td>
-                  <a style="cursor: pointer">
-                    <i *ngIf="" class="material-icons" title="Ping server"
-                      >&#xe328;</i
-                    >
-                    <i
-                      class="fa fa-spinner fa-spin"
-                      style="font-size: 24px"
-                    ></i>
-                  </a>
-                </td>
-                <td>
-                  <a class="delete" data-toggle="modal" style="cursor: pointer"
-                    ><i
-                      class="material-icons"
-                      data-toggle="tooltip"
-                      title="Delete"
-                      >&#xE872;</i
-                    ></a
-                  >
-                </td>
-              </tr>
-            </tbody>
-          </table>
-        </ng-container>
-        <ng-container *ngSwitchCase="DataState.ERROR_STATE">
-          <div class="alert-danger">
-            {{ appState.error }}
-          </div>
-        </ng-container>
+    <ng-container
+      *ngIf="appState$ | async as appState"
+      [ngSwitch]="appState.dataState"
+    >
+      <ng-container *ngSwitchCase="DataState.LOADING_STATE">
+        <div class="col-md-12 text-center">
+          <div
+            title="Loading Servers..."
+            class="spinner-border text-info"
+            role="status"
+          ></div>
+        </div>
       </ng-container>
-    </div>
+
+      <ng-container *ngSwitchCase="DataState.LOADED_STATE">
+        <table class="table table-hover" id="servers">
+          <thead>
+            <tr>
+              <th>#</th>
+              <th>IP Address</th>
+              <th>Name</th>
+              <th>Network</th>
+              <th>Status</th>
+              <th>Ping</th>
+              <th>Actions</th>
+            </tr>
+          </thead>
+          <tbody
+            *ngFor="
+              let server of appState.appData?.data?.servers;
+              let i = index
+            "
+          >
+            <tr>
+              <td title="Server ID: {{ server.id }}">{{ i + 1 }}</td>
+              <td>{{ server.ipAddress }}</td>
+              <td>{{ server.name }}</td>
+              <td>{{ server.network }}</td>
+              <td>
+                <span
+                  class="badge"
+                  [ngClass]="[
+                    server.status === Status.SERVER_UP
+                      ? ' badge-success'
+                      : ' badge-danger'
+                  ]"
+                >
+                  {{
+                    server.status === Status.SERVER_UP
+                      ? "SERVER UP"
+                      : "SERVER DOWN"
+                  }}
+                </span>
+              </td>
+              <td>
+                <a style="cursor: pointer">
+                  <i
+                    *ngIf="
+                      (filterStatusWhenPinging$ | async) === '' ||
+                      (filterStatusWhenPinging$ | async) !== server.ipAddress
+                    "
+                    class="fa fa-tower-broadcast"
+                    title="Ping Server"
+                    style="font-size: 1.5rem"
+                  ></i>
+                  <i
+                    *ngIf="
+                      (filterStatusWhenPinging$ | async) === server.ipAddress
+                    "
+                    class="fa fa-circle-notch fa-spin"
+                    style="font-size: 1.5rem"
+                  ></i>
+                </a>
+              </td>
+              <td>
+                <a class="delete" data-toggle="modal" style="cursor: pointer"
+                  ><i
+                    class="fa fa-trash-o fa-1x mx-2"
+                    title="Delete Server"
+                    style="font-size: 1.5rem"
+                  ></i
+                ></a>
+              </td>
+            </tr>
+          </tbody>
+        </table>
+      </ng-container>
+
+      <ng-container *ngSwitchCase="DataState.ERROR_STATE">
+        <div class="alert-danger">
+          {{ appState.error }}
+        </div>
+      </ng-container>
+    </ng-container>
   </div>
 </div>
 

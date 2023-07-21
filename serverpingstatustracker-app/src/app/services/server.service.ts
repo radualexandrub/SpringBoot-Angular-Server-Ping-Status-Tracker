@@ -52,7 +52,7 @@ export class ServerService {
       subscriber.complete();
     }).pipe(tap(console.log), catchError(this.handleError));
 
-  getServerById = (serverId: number) =>
+  getServerById$ = (serverId: number) =>
     <Observable<CustomResponse>>(
       this.http
         .get<CustomResponse>(`${this.apiUrl}/servers/${serverId}`)
@@ -73,21 +73,21 @@ export class ServerService {
         .pipe(tap(console.log), catchError(this.handleError))
     );
 
-  deleteServerById = (serverId: number) =>
+  deleteServerById$ = (serverId: number) =>
     <Observable<CustomResponse>>(
       this.http
         .delete<CustomResponse>(`${this.apiUrl}/servers/${serverId}`)
         .pipe(tap(console.log), catchError(this.handleError))
     );
 
-  pingServerById = (serverId: number) =>
+  pingServerById$ = (serverId: number) =>
     <Observable<CustomResponse>>(
       this.http
         .get<CustomResponse>(`${this.apiUrl}/servers/${serverId}/ping`)
         .pipe(tap(console.log), catchError(this.handleError))
     );
 
-  pingServerByIpAddress = (ipAddress: string) =>
+  pingServerByIpAddress$ = (ipAddress: string) =>
     <Observable<CustomResponse>>(
       this.http
         .get<CustomResponse>(`${this.apiUrl}/servers/ping/${ipAddress}`)

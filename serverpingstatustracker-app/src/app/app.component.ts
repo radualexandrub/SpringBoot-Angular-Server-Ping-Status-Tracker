@@ -1,6 +1,13 @@
 import { Component, OnInit } from '@angular/core';
 import { ServerService } from './services/server.service';
-import { Observable, catchError, map, of, startWith } from 'rxjs';
+import {
+  BehaviorSubject,
+  Observable,
+  catchError,
+  map,
+  of,
+  startWith,
+} from 'rxjs';
 import { AppState } from './interfaces/app-state';
 import { CustomResponse } from './interfaces/custom-response';
 import { DataState } from './enums/data-state.enum';
@@ -15,11 +22,14 @@ export class AppComponent implements OnInit {
   appState$!: Observable<AppState<CustomResponse>>;
   readonly Status = Status;
   readonly DataState = DataState;
+  private filterSubjectWhenPinging = new BehaviorSubject<string>('');
+  readonly filterStatusWhenPinging$ =
+    this.filterSubjectWhenPinging.asObservable();
 
   constructor(private serverService: ServerService) {}
 
   ngOnInit(): void {
-    this.appState$ = this.serverService.getServersPinged$().pipe(
+    this.appState$ = this.serverService.servers$.pipe(
       map((response) => {
         return { dataState: DataState.LOADED_STATE, appData: response };
       }),
