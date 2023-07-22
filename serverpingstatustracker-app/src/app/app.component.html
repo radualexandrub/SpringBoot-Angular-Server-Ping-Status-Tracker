@@ -79,7 +79,7 @@
               <th>Network</th>
               <th>Status</th>
               <th>Ping</th>
-              <th>Actions</th>
+              <th></th>
             </tr>
           </thead>
           <tbody
@@ -110,29 +110,40 @@
                 </span>
               </td>
               <td>
-                <a style="cursor: pointer">
+                <a
+                  class="edit"
+                  style="cursor: pointer"
+                  (click)="pingServerByItsIpAddress(server.ipAddress)"
+                >
                   <i
                     *ngIf="
-                      (filterStatusWhenPinging$ | async) === '' ||
-                      (filterStatusWhenPinging$ | async) !== server.ipAddress
+                      (ipAddressStatusWhenPinging$ | async) === '' ||
+                      (ipAddressStatusWhenPinging$ | async) !== server.ipAddress
                     "
-                    class="fa fa-tower-broadcast"
+                    class="fa fa-tower-broadcast fa-1x"
                     title="Ping Server"
                     style="font-size: 1.5rem"
                   ></i>
                   <i
                     *ngIf="
-                      (filterStatusWhenPinging$ | async) === server.ipAddress
+                      (ipAddressStatusWhenPinging$ | async) === server.ipAddress
                     "
                     class="fa fa-circle-notch fa-spin"
                     style="font-size: 1.5rem"
                   ></i>
                 </a>
               </td>
-              <td>
+              <td class="d-flex flex-row">
+                <a class="edit" data-toggle="modal" style="cursor: pointer"
+                  ><i
+                    class="fa fa-pen fa-1x mx-2"
+                    title="Delete Server"
+                    style="font-size: 1.5rem"
+                  ></i
+                ></a>
                 <a class="delete" data-toggle="modal" style="cursor: pointer"
                   ><i
-                    class="fa fa-trash-o fa-1x mx-2"
+                    class="fa fa-trash fa-1x mx-2"
                     title="Delete Server"
                     style="font-size: 1.5rem"
                   ></i
