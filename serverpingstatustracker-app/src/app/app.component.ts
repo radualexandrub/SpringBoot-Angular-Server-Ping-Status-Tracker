@@ -34,6 +34,9 @@ export class AppComponent implements OnInit {
   // Assert that null can be assigned by using the non-null assertion operator !
   // This assumes that the data passed to serversDataCopySubject (the UI copy of servers)
   // will be updated before any subscribers access it, ensuring that it won't actually be null.
+  private statusSubject = new BehaviorSubject<Status>(
+    Status['ALL' as keyof typeof Status]
+  );
 
   constructor(private serverService: ServerService) {}
 
@@ -77,5 +80,30 @@ export class AppComponent implements OnInit {
         return of({ dataState: DataState.ERROR_STATE, error });
       })
     );
+  }
+
+  filterServersByStatus(event: Event): void {
+    const statusValue: String = (event.target as HTMLInputElement).value;
+    this.statusSubject.next(Status[statusValue as keyof typeof Status]);
+    this.appState$ = this.serverService
+      .filterByStatus$(
+        this.statusSubject.value,
+        this.serversCopyDataSubject.value
+      )
+      .pipe(
+        map((response) => {
+          return {
+            dataState: DataState.LOADED_STATE,
+            appData: response,
+          };
+        }),
+        startWith({
+          dataState: DataState.LOADED_STATE,
+          appData: this.serversCopyDataSubject.value,
+        }),
+        catchError((error: string) => {
+          return of({ dataState: DataState.ERROR_STATE, error });
+        })
+      );
   }
 }

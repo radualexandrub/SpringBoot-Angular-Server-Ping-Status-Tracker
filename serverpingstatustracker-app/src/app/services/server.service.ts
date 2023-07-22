@@ -6,6 +6,11 @@ import { CustomResponse } from '../interfaces/custom-response';
 import { Server } from '../interfaces/server';
 import { Status } from '../enums/status.enum';
 
+/**
+ * @author Radu-Alexandru Bulai
+ * @version 1.0.0
+ * @since 18/07/2023
+ */
 @Injectable({ providedIn: 'root' })
 export class ServerService {
   private readonly apiUrl = 'http://localhost:8080/api';
@@ -25,22 +30,18 @@ export class ServerService {
         .pipe(tap(console.log), catchError(this.handleError))
     );
 
-  filter$ = (status: Status, response: CustomResponse) =>
+  filterByStatus$ = (status: Status, response: CustomResponse) =>
     <Observable<CustomResponse>>new Observable<CustomResponse>((subscriber) => {
       console.log(response);
       const servers = response.data?.servers || [];
-      const filteredServers = servers.filter(
-        (server) => server.status === status
-      );
-
-      const message =
+      const filteredServers =
         status === Status.ALL
+          ? servers
+          : servers.filter((server) => server.status === status);
+      const message =
+        filteredServers.length > 0
           ? `Servers filtered by ${status} status`
-          : filteredServers.length > 0
-          ? `Servers filtered by ${
-              status === Status.SERVER_UP ? 'SERVER UP' : 'SERVER DOWN'
-            } status`
-          : `No servers of ${status} found`;
+          : `No servers of ${status} status were found`;
 
       subscriber.next({
         ...response,

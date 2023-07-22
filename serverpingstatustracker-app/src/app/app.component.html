@@ -35,13 +35,13 @@
     <div>
       <select
         name="status"
-        ngModel="ALL"
+        (change)="filterServersByStatus($event)"
         class="btn btn-primary"
         title="Filter Severs by Status"
       >
-        <option value="ALL">ALL</option>
-        <option value="SERVER_UP">SERVER UP</option>
-        <option value="SERVER_DOWN">SERVER DOWN</option>
+        <option value="ALL">ALL SERVERS</option>
+        <option value="SERVER_UP">SERVERS UP</option>
+        <option value="SERVER_DOWN">SERVERS DOWN</option>
       </select>
     </div>
     <div
