@@ -35,7 +35,7 @@
     <div>
       <select
         name="status"
-        (change)="filterServersByStatus($event)"
+        (change)="onFilterServersByStatus($event)"
         class="btn btn-primary"
         title="Filter Severs by Status"
       >
@@ -74,7 +74,7 @@
           <thead>
             <tr>
               <th>#</th>
-              <th>IP Address</th>
+              <th>Address</th>
               <th>Name</th>
               <th>Network</th>
               <th>Status</th>
@@ -113,7 +113,7 @@
                 <a
                   class="edit"
                   style="cursor: pointer"
-                  (click)="pingServerByItsIpAddress(server.ipAddress)"
+                  (click)="onPingServerByItsIpAddress(server.ipAddress)"
                 >
                   <i
                     *ngIf="
@@ -167,9 +167,9 @@
 <div id="addServerModal" class="modal fade">
   <div class="modal-dialog">
     <div class="modal-content">
-      <form>
+      <form #addServerForm="ngForm" (ngSubmit)="onAddServer(addServerForm)">
         <div class="modal-header">
-          <h4 class="modal-title">Add Server</h4>
+          <div class="modal-title">Add Server</div>
           <button
             type="button"
             class="close"
@@ -181,7 +181,7 @@
         </div>
         <div class="modal-body">
           <div class="form-group">
-            <label>IP</label>
+            <label>IP Address / FQDN</label>
             <input
               type="text"
               ngModel
@@ -200,31 +200,15 @@
               required
             />
           </div>
-          <div class="row">
-            <div class="col-xl-6 col-lg-6 col-md-6 col-sm-6 col-6">
-              <div class="form-group">
-                <label>Memory</label>
-                <input
-                  type="text"
-                  ngModel
-                  name="memory"
-                  class="form-control"
-                  required
-                />
-              </div>
-            </div>
-            <div class="col-xl-6 col-lg-6 col-md-6 col-sm-6 col-6">
-              <div class="form-group">
-                <label>Type</label>
-                <input
-                  type="text"
-                  ngModel
-                  name="type"
-                  class="form-control"
-                  required
-                />
-              </div>
-            </div>
+          <div class="form-group">
+            <label>Network</label>
+            <input
+              type="text"
+              ngModel
+              name="network"
+              class="form-control"
+              required
+            />
           </div>
           <div class="form-group">
             <label>Status</label>
@@ -243,21 +227,26 @@
         <div class="modal-footer">
           <button
             type="button"
-            class="btn btn-warning"
+            class="btn"
             id="closeModal"
             data-dismiss="modal"
           >
             Cancel
           </button>
-          <!-- <button
+          <button
             type="submit"
-            [disabled]="serverForm.invalid || (isLoading$ | async)"
-            class="btn btn-success"
+            class="btn btn-primary"
+            [disabled]="
+              addServerForm.invalid || (isServerRequestLoading$ | async)
+            "
           >
-            <i *ngIf="isLoading$ | async" class="fas fa-spinner fa-spin"></i>
-            <span *ngIf="isLoading$ | async">Saving...</span>
-            <span *ngIf="!(isLoading$ | async)">Add</span>
-          </button> -->
+            <span *ngIf="!(isServerRequestLoading$ | async)">Add</span>
+            <span *ngIf="isServerRequestLoading$ | async">Saving...</span>
+            <i
+              *ngIf="isServerRequestLoading$ | async"
+              class="fas fa-spinner fa-spin"
+            ></i>
+          </button>
         </div>
       </form>
     </div>
