@@ -147,4 +147,31 @@ export class AppComponent implements OnInit {
         })
       );
   }
+
+  onDeleteServer(server: Server): void {
+    this.appState$ = this.serverService.deleteServerById$(server.id).pipe(
+      map((response) => {
+        this.currentServersCopyDataSubject.next({
+          ...response,
+          data: {
+            servers:
+              this.currentServersCopyDataSubject.value.data.servers?.filter(
+                (serverToDelete) => serverToDelete.id !== server.id
+              ),
+          },
+        });
+        return {
+          dataState: DataState.LOADED_STATE,
+          appData: this.currentServersCopyDataSubject.value,
+        };
+      }),
+      startWith({
+        dataState: DataState.LOADED_STATE,
+        appData: this.currentServersCopyDataSubject.value,
+      }),
+      catchError((error: string) => {
+        return of({ dataState: DataState.ERROR_STATE, error });
+      })
+    );
+  }
 }

@@ -141,7 +141,11 @@
                     style="font-size: 1.5rem"
                   ></i
                 ></a>
-                <a class="delete" data-toggle="modal" style="cursor: pointer"
+                <a
+                  (click)="onDeleteServer(server)"
+                  class="delete"
+                  data-toggle="modal"
+                  style="cursor: pointer"
                   ><i
                     class="fa fa-trash fa-1x mx-2"
                     title="Delete Server"
@@ -244,7 +248,7 @@
             <span *ngIf="isServerRequestLoading$ | async">Saving...</span>
             <i
               *ngIf="isServerRequestLoading$ | async"
-              class="fas fa-spinner fa-spin"
+              class="fas fa-circle-notch fa-spin"
             ></i>
           </button>
         </div>
