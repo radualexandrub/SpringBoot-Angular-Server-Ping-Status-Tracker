@@ -27,6 +27,9 @@ import { Server } from './interfaces/server';
 })
 export class AppComponent implements OnInit {
   appState$!: Observable<AppState<CustomResponse>>;
+  private editServerSubject = new BehaviorSubject<Server>(null!);
+  readonly editServer$ = this.editServerSubject.asObservable();
+
   readonly Status = Status;
   readonly DataState = DataState;
   private ipAddressSubjectWhenPinging = new BehaviorSubject<string>('');
@@ -131,7 +134,7 @@ export class AppComponent implements OnInit {
           });
           addServerForm.resetForm({ status: this.Status.SERVER_DOWN });
           this.isServerRequestLoadingSubject.next(false);
-          document.getElementById('closeModal')?.click();
+          document.getElementById('closeAddModal')?.click();
           return {
             dataState: DataState.LOADED_STATE,
             appData: this.currentServersCopyDataSubject.value,
@@ -173,5 +176,51 @@ export class AppComponent implements OnInit {
         return of({ dataState: DataState.ERROR_STATE, error });
       })
     );
+  }
+
+  onUpdateServer(updateServerForm: NgForm): void {
+    this.isServerRequestLoadingSubject.next(true);
+    this.appState$ = this.serverService
+      .updateServer$(updateServerForm.value as Server)
+      .pipe(
+        map((response) => {
+          const currentServers =
+            this.currentServersCopyDataSubject.value?.data?.servers;
+          const indexOfUpdatedServer = currentServers!.findIndex(
+            (server) => server.id === response.data.server!.id
+          );
+          currentServers![indexOfUpdatedServer] = response.data.server!;
+          this.isServerRequestLoadingSubject.next(false);
+          document.getElementById('closeEditModal')?.click();
+          return {
+            dataState: DataState.LOADED_STATE,
+            appData: this.currentServersCopyDataSubject.value,
+          };
+        }),
+        startWith({
+          dataState: DataState.LOADED_STATE,
+          appData: this.currentServersCopyDataSubject.value,
+        }),
+        catchError((error: string) => {
+          this.isServerRequestLoadingSubject.next(false);
+          return of({ dataState: DataState.ERROR_STATE, error });
+        })
+      );
+  }
+
+  onOpenModal(server: Server, modalMode: String): void {
+    const container = document.getElementById('main-container');
+    const button = document.createElement('button');
+    button.type = 'button';
+    button.style.display = 'none';
+    button.setAttribute('data-toggle', 'modal');
+
+    if (modalMode == 'edit') {
+      this.editServerSubject.next(server);
+      button.setAttribute('data-target', '#editServerModal');
+    }
+    container?.appendChild(button);
+    button.click();
+    button.remove();
   }
 }
