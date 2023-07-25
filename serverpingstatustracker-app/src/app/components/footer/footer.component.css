@@ -1,0 +1,27 @@
+.footer {
+  padding: 1rem;
+  padding-bottom: 0.5rem;
+  text-align: center;
+  background-color: var(--background-color-secondary);
+  transition: background-color 200ms ease-in;
+}
+.footer a {
+  text-decoration: none;
+  color: var(--primary-color);
+  transition: color 200ms ease-in-out;
+}
+.footer a:hover {
+  color: var(--secondary-color);
+}
+.footer--space-before {
+  margin: 2rem 0;
+}
+.see-on-github-bubble {
+  margin-top: -2.2rem;
+  margin-bottom: 1rem;
+}
+@media screen and (max-width: 480px) {
+  .footer {
+    font-size: 0.9em;
+  }
+}

@@ -21,11 +21,22 @@
   background: var(--primary-color);
   color: #fff;
 }
+html,
 body {
-  background-color: var(--background-color);
+  height: 100%;
+}
+app-root {
   font-size: 16px;
   color: var(--primary-font-color);
+  background-color: var(--background-color);
+  /* useful for sticking the footer to bottom of page in Angular */
+  min-height: 100%;
+  display: flex;
+  flex-direction: column;
   transition: background-color 300ms ease-in, color 300ms ease-in;
+}
+app-footer {
+  margin-top: auto;
 }
 @media (min-width: 1200px) {
   .container {
