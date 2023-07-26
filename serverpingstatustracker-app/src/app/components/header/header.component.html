@@ -1,0 +1,41 @@
+<nav class="navbar navbar-expand-lg navbar-dark">
+  <h1 style="font-size: 1rem">
+    <a class="navbar-brand" style="color: white">Server Ping Status Tracker</a>
+  </h1>
+  <button
+    class="navbar-toggler"
+    type="button"
+    data-toggle="collapse"
+    data-target="#navbarColor02"
+    aria-controls="navbarColor02"
+    aria-expanded="false"
+    aria-label="Toggle navigation"
+  >
+    <span class="navbar-toggler-icon"></span>
+  </button>
+  <div class="collapse navbar-collapse" id="navbarColor02">
+    <ul class="navbar-nav mr-auto">
+      <li class="nav-item active">
+        <a class="nav-link" (click)="onOpenModal(null!, 'add')"
+          >Add Server <span class="sr-only">(current)</span></a
+        >
+      </li>
+      <li class="nav-item">
+        <a class="nav-link" routerLink="/"
+          >Servers <span class="sr-only">(current)</span></a
+        >
+      </li>
+      <li class="nav-item">
+        <a routerLink="/about" class="nav-link"
+          >About <span class="sr-only">(current)</span></a
+        >
+      </li>
+    </ul>
+    <div
+      class="dark-mode-icon nav-item"
+      title="Toggle between light/dark theme"
+    >
+      <i class="fa fa-moon fa-1x mx-2" style="font-size: 1.75rem"></i>
+    </div>
+  </div>
+</nav>
