@@ -1,0 +1,16 @@
+.navbar {
+  background-color: hsl(200, 33%, 10%);
+}
+.nav-link:hover {
+  cursor: pointer;
+}
+@media screen and (max-width: 992px) {
+  .nav-item {
+    display: flex;
+    justify-content: center;
+  }
+}
+.dark-mode-icon {
+  color: #fff;
+  cursor: pointer;
+}

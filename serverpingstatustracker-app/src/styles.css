@@ -6,20 +6,24 @@
   --background-color-secondary: hsl(0, 0%, 100%);
   --primary-color: hsl(200, 27%, 37%);
   --secondary-color: hsl(200, 33%, 24%);
+  --secondary-color-table-highlight: hsla(200, 33%, 24%, 10%);
   --primary-font-color: #000;
+  --primary-font-color-opposite: #fff;
   --container-color: hsl(0, 0%, 97%);
 }
 [data-theme="dark"] {
   --background-color: hsl(207, 29%, 6%);
   --background-color-secondary: hsl(206, 28%, 10%);
-  --primary-color: hsl(216, 85%, 80%);
+  --primary-color: hsl(216, 100%, 81%);
   --secondary-color: hsl(210, 79%, 75%);
+  --secondary-color-table-highlight: hsla(210, 80%, 75%, 15%);
   --primary-font-color: #fff;
+  --primary-font-color-opposite: #000;
   --container-color: hsl(207, 29%, 8%);
 }
 ::selection {
   background: var(--primary-color);
-  color: #fff;
+  color: var(--primary-font-color-opposite);
 }
 html,
 body {
@@ -52,51 +56,17 @@ app-footer {
 .modal-footer {
   border-top: none !important;
 }
-.navbar {
-  background-color: hsl(200, 33%, 10%);
-}
-.nav-link:hover {
-  cursor: pointer;
-}
-@media screen and (max-width: 992px) {
-  .nav-item {
-    display: flex;
-    justify-content: center;
-  }
-}
 
 input {
   color: var(--primary-font-color) !important;
   background-color: var(--background-color-secondary) !important;
   transition: background-color 300ms ease-in !important;
 }
-.card {
-  background-color: var(--container-color);
-  border: none;
-  box-shadow: 1px 2px 5px 1px rgba(0, 0, 0, 0.1);
-  margin-bottom: 1rem;
-  border-radius: 1rem;
-  transition: background-color 300ms ease-in;
-}
-.card--name {
-  font-size: 1.2rem;
-  font-weight: 600;
-  color: var(--primary-color);
-}
-.card--img {
-  aspect-ratio: 1/1;
-  object-fit: cover;
-}
-.card .list-group-item {
-  background-color: transparent;
-}
-.dark-mode-icon {
-  color: #fff;
-  cursor: pointer;
-}
+
 .w-60 {
   width: 4rem;
 }
+
 .btn-primary {
   background-color: var(--primary-color) !important;
   border-color: var(--primary-color) !important;
@@ -106,34 +76,13 @@ input {
   border-color: var(--primary-color) !important;
 }
 .btn-primary:disabled {
-  color: #fff;
   background-color: gray;
   border-color: gray;
 }
-.social-links li a {
-  -webkit-border-radius: 50%;
-  background-color: var(--primary-color);
-  border-radius: 50%;
-  color: #fff;
-  display: inline-block;
-  height: 30px;
-  line-height: 30px;
-  text-align: center;
-  width: 30px;
-  font-size: 12px;
-  transition: background-color 200ms ease-in;
-}
-.social-links li a:hover {
-  background-color: var(--secondary-color);
-}
+
 a {
   color: var(--primary-color);
 }
 a:hover {
   color: var(--secondary-color);
-}
-.alert-title {
-  font-size: 1.2rem;
-  font-weight: 700;
-  margin-bottom: 1rem;
 }
