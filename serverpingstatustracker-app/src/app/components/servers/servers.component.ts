@@ -118,6 +118,29 @@ export class ServersComponent implements OnInit {
       );
   }
 
+  onSearchServers(keyword: String): void {
+    this.appState$ = this.serverService
+      .searchServersByKeyword$(
+        keyword,
+        this.currentServersCopyDataSubject.value
+      )
+      .pipe(
+        map((response) => {
+          return {
+            dataState: DataState.LOADED_STATE,
+            appData: response,
+          };
+        }),
+        startWith({
+          dataState: DataState.LOADED_STATE,
+          appData: this.currentServersCopyDataSubject.value,
+        }),
+        catchError((error: string) => {
+          return of({ dataState: DataState.ERROR_STATE, error });
+        })
+      );
+  }
+
   onAddServer(addServerForm: NgForm): void {
     this.isServerRequestLoadingSubject.next(true);
     this.appState$ = this.serverService

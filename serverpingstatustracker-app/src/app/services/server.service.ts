@@ -32,7 +32,6 @@ export class ServerService {
 
   filterByStatus$ = (status: Status, response: CustomResponse) =>
     <Observable<CustomResponse>>new Observable<CustomResponse>((subscriber) => {
-      console.log(response);
       const servers = response.data?.servers || [];
       const filteredServers =
         status === Status.ALL
@@ -48,6 +47,26 @@ export class ServerService {
         message,
         data: {
           servers: filteredServers,
+        },
+      });
+      subscriber.complete();
+    }).pipe(tap(console.log), catchError(this.handleError));
+
+  searchServersByKeyword$ = (keyword: String, response: CustomResponse) =>
+    <Observable<CustomResponse>>new Observable<CustomResponse>((subscriber) => {
+      const currentServers = response.data?.servers || [];
+      const searchedText = keyword.toLowerCase();
+      const resultedServers: Server[] = currentServers.filter(
+        (server) =>
+          server.name.toLowerCase().indexOf(searchedText) !== -1 ||
+          server.ipAddress.toLowerCase().indexOf(searchedText) !== -1 ||
+          server.network.toLowerCase().indexOf(searchedText) !== -1
+      );
+      subscriber.next({
+        ...response,
+        message: `Servers resulted by ${keyword ? keyword : 'EMPTY'} search`,
+        data: {
+          servers: resultedServers,
         },
       });
       subscriber.complete();

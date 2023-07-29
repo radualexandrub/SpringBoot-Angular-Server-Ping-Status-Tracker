@@ -1,14 +1,33 @@
 <div class="container" id="main-container">
-  <select
-    name="status"
-    (change)="onFilterServersByStatus($event)"
-    class="btn btn-primary"
-    title="Filter Severs by Status"
-  >
-    <option value="ALL">ALL SERVERS</option>
-    <option value="SERVER_UP">SERVERS UP</option>
-    <option value="SERVER_DOWN">SERVERS DOWN</option>
-  </select>
+  <div class="d-flex">
+    <form class="form-inline">
+      <input
+        (ngModelChange)="onSearchServers(keyword.value)"
+        #keyword="ngModel"
+        ngModel
+        name="keyword"
+        type="search"
+        id="searchName"
+        class="form-control"
+        style="border: none !important"
+        title="Search servers by name, address or network"
+        placeholder="Search servers..."
+      />
+    </form>
+
+    <select
+      name="status"
+      (change)="onFilterServersByStatus($event)"
+      class="btn btn-primary"
+      title="Filter Severs by Status"
+      style="margin-left: auto"
+    >
+      <option value="ALL">ALL SERVERS</option>
+      <option value="SERVER_UP">SERVERS UP</option>
+      <option value="SERVER_DOWN">SERVERS DOWN</option>
+    </select>
+  </div>
+
   <div class="table-responsive">
     <ng-container
       *ngIf="appState$ | async as appState"
@@ -88,7 +107,7 @@
                   ></i>
                 </a>
               </td>
-              <td class="d-flex flex-row">
+              <td class="d-flex flex-row justify-content-end">
                 <a
                   (click)="onOpenModal(server, 'edit')"
                   class="edit"
