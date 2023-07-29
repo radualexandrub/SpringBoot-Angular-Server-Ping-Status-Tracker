@@ -16,17 +16,23 @@
   <div class="collapse navbar-collapse" id="navbarColor02">
     <ul class="navbar-nav mr-auto">
       <li class="nav-item active">
-        <a class="nav-link" (click)="onOpenModal(null!, 'add')"
+        <a
+          *ngIf="hasRoute('/')"
+          class="nav-link"
+          (click)="onOpenModal(null!, 'add')"
           >Add Server <span class="sr-only">(current)</span></a
         >
       </li>
       <li class="nav-item">
-        <a class="nav-link" routerLink="/"
+        <a *ngIf="hasRoute('/about')" class="nav-link" routerLink="/"
           >Servers <span class="sr-only">(current)</span></a
         >
       </li>
       <li class="nav-item">
-        <a routerLink="/about" class="nav-link"
+        <a
+          routerLink="/about"
+          class="nav-link"
+          [ngClass]="{ active: hasRoute('/about') }"
           >About <span class="sr-only">(current)</span></a
         >
       </li>
