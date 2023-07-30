@@ -1,6 +1,6 @@
 <div class="container" id="main-container">
-  <div class="d-flex">
-    <form class="form-inline">
+  <div class="d-flex align-items-center overflow-auto">
+    <form class="form-inline" style="min-width: 10rem">
       <input
         (ngModelChange)="onSearchServers(keyword.value)"
         #keyword="ngModel"
@@ -14,6 +14,14 @@
         placeholder="Search servers..."
       />
     </form>
+
+    <a
+      class="mx-3"
+      style="cursor: pointer; white-space: nowrap"
+      (click)="onGetPingedServers()"
+      title="Ping All Servers"
+      >Ping All</a
+    >
 
     <select
       name="status"
@@ -34,11 +42,12 @@
       [ngSwitch]="appState.dataState"
     >
       <ng-container *ngSwitchCase="DataState.LOADING_STATE">
-        <div class="col-md-12 text-center">
+        <div class="col-md-12 text-center overflow-hidden">
           <div
             title="Loading Servers..."
-            class="spinner-border text-info"
+            class="spinner-border"
             role="status"
+            style="color: var(--primary-color)"
           ></div>
         </div>
       </ng-container>
@@ -206,6 +215,7 @@
             class="btn"
             id="closeAddModal"
             data-dismiss="modal"
+            style="color: var(--primary-font-color)"
           >
             Cancel
           </button>
@@ -305,6 +315,7 @@
             class="btn"
             id="closeEditModal"
             data-dismiss="modal"
+            style="color: var(--primary-font-color)"
           >
             Cancel
           </button>

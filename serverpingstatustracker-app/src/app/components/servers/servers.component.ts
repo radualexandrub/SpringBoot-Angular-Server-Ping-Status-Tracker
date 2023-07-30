@@ -51,7 +51,24 @@ export class ServersComponent implements OnInit {
   constructor(private serverService: ServerService) {}
 
   ngOnInit(): void {
+    this.onGetServers();
+  }
+
+  onGetServers(): void {
     this.appState$ = this.serverService.servers$.pipe(
+      map((response) => {
+        this.currentServersCopyDataSubject.next(response);
+        return { dataState: DataState.LOADED_STATE, appData: response };
+      }),
+      startWith({ dataState: DataState.LOADING_STATE }),
+      catchError((error: string) => {
+        return of({ dataState: DataState.ERROR_STATE, error });
+      })
+    );
+  }
+
+  onGetPingedServers(): void {
+    this.appState$ = this.serverService.getPingedServers$().pipe(
       map((response) => {
         this.currentServersCopyDataSubject.next(response);
         return { dataState: DataState.LOADED_STATE, appData: response };

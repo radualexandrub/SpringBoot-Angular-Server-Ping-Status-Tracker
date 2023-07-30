@@ -23,7 +23,7 @@ export class ServerService {
       .pipe(tap(console.log), catchError(this.handleError))
   );
 
-  getServersPinged$ = () =>
+  getPingedServers$ = () =>
     <Observable<CustomResponse>>(
       this.http
         .get<CustomResponse>(`${this.apiUrl}/servers/ping`)

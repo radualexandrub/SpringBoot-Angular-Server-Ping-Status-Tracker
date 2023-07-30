@@ -63,10 +63,6 @@ input {
   transition: background-color 300ms ease-in !important;
 }
 
-.w-60 {
-  width: 4rem;
-}
-
 .btn-primary {
   background-color: var(--primary-color) !important;
   border-color: var(--primary-color) !important;
