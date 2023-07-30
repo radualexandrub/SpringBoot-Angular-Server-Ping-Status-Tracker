@@ -12,9 +12,13 @@
   border-top: 2px solid var(--secondary-color-table-highlight);
 }
 .table thead th {
-  border-bottom: 1px solid var(--secondary-color);
+  border-bottom: 1px solid var(--primary-color);
 }
 .table-hover tbody tr:hover {
   color: inherit !important;
   background-color: var(--secondary-color-table-highlight) !important;
+}
+.badge-primary-color {
+  color: #fff;
+  background-color: var(--primary-color);
 }

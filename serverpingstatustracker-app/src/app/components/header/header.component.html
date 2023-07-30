@@ -37,9 +37,32 @@
         >
       </li>
     </ul>
+    <div class="nav-icon nav-item" style="position: relative">
+      <i
+        (click)="onToggleAccentColor()"
+        style="position: relative; font-size: 1.75rem"
+        class="fa fa-palette fa-1x mx-2"
+        title="Pick custom accent color"
+      >
+      </i>
+      <input
+        (input)="onChangeAccentColor($event)"
+        type="color"
+        id="accentColorInput"
+        name="accentColorInput"
+        ngModel="#4ca800"
+        style="
+          opacity: 0;
+          position: absolute;
+          top: 0;
+          left: 0;
+          pointer-events: none;
+        "
+      />
+    </div>
     <div
       (click)="onToggleDarkTheme()"
-      class="dark-mode-icon nav-item"
+      class="nav-icon nav-item"
       title="Toggle between light/dark theme"
     >
       <i class="fa fa-moon fa-1x mx-2" style="font-size: 1.75rem"></i>
