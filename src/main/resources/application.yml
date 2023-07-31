@@ -1,6 +1,5 @@
 serverpingstatustracker-config:
   isReachableTimeoutInMillis: 4000
-debug: true
 spring:
   datasource:
     # MySQL
@@ -15,3 +14,4 @@ spring:
       hibernate:
         dialect: org.hibernate.dialect.MySQL5InnoDBDialect
         format_sql: false
+debug: false

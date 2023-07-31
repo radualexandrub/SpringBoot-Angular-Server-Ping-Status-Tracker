@@ -3,6 +3,11 @@ import { Server } from 'src/app/interfaces/server';
 import { ServersComponent } from '../servers/servers.component';
 import { Router } from '@angular/router';
 
+/**
+ * @author Radu-Alexandru Bulai
+ * @version 1.0.0
+ * @since 26/07/2023
+ */
 @Component({
   selector: 'app-header',
   templateUrl: './header.component.html',
