@@ -248,6 +248,25 @@ export class ServersComponent implements OnInit {
       );
   }
 
+  onExportListAsJSON(): void {
+    const filename = `ServersList_${new Date()
+      .toISOString()
+      .slice(0, 10)}.json`;
+    const currentServers =
+      this.currentServersCopyDataSubject.value?.data?.servers;
+    let element = document.createElement('a');
+    element.setAttribute(
+      'href',
+      'data:text/plain;charset=utf-8,' +
+        encodeURIComponent(JSON.stringify(currentServers))
+    );
+    element.setAttribute('download', filename);
+    element.style.display = 'none';
+    document.body.appendChild(element);
+    element.click();
+    document.body.removeChild(element);
+  }
+
   onOpenModal(server: Server, modalMode: String): void {
     const container = document.getElementById('main-container');
     const button = document.createElement('button');

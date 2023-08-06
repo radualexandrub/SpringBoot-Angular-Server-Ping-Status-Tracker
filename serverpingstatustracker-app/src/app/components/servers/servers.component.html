@@ -143,6 +143,14 @@
             </tr>
           </tbody>
         </table>
+        <a
+          role="button"
+          title="Export Servers List as JSON"
+          id="exportListAsJSONAnchorLink"
+          class="mr-3"
+          (click)="onExportListAsJSON()"
+          >Export List</a
+        >
       </ng-container>
 
       <ng-container *ngSwitchCase="DataState.ERROR_STATE">
