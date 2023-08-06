@@ -19,6 +19,10 @@ export class HeaderComponent implements OnInit {
     private router: Router
   ) {}
 
+  public accentColor: any = localStorage.getItem('accent-color')
+    ? localStorage.getItem('accent-color')
+    : '#456778';
+
   ngOnInit(): void {
     // Get Dark Mode Toggle from Local Storage
     if (localStorage.getItem('theme') === null) {

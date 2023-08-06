@@ -63,6 +63,18 @@ public class ServerResource {
                         .build());
     }
 
+    @PostMapping("/save-all")
+    public ResponseEntity<Response> addServers(@RequestBody @Valid Server[] servers) {
+        return ResponseEntity.ok(
+                Response.builder()
+                        .timeStamp(now())
+                        .data(Map.of("servers", serverService.addServers(servers)))
+                        .message(String.format("%s Servers created", servers.length))
+                        .status(CREATED)
+                        .statusCode(CREATED.value())
+                        .build());
+    }
+
     @PutMapping("")
     public ResponseEntity<Response> updateServer(@RequestBody @Valid Server server) {
         return ResponseEntity.ok(

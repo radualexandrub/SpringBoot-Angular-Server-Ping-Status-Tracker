@@ -15,8 +15,10 @@ import org.springframework.stereotype.Service;
 import javax.transaction.Transactional;
 import java.io.IOException;
 import java.net.InetAddress;
+import java.util.Arrays;
 import java.util.Collection;
-import java.util.concurrent.TimeUnit;
+import java.util.List;
+// import java.util.concurrent.TimeUnit;
 
 import static com.radubulai.serverpingstatustracker.enumeration.Status.*;
 
@@ -55,6 +57,21 @@ public class ServerServiceImpl implements ServerServiceI {
     public Server addServer(Server server) {
         log.info("Saving Server {}", server);
         return serverRepository.save(server);
+    }
+
+    @Override
+    public List<Server> addServers(Server[] servers) {
+        List<Server> serversWithoutId = Arrays.stream(servers)
+                .map(server -> new Server(
+                        null,
+                        server.getIpAddress(),
+                        server.getName(),
+                        server.getNetwork(),
+                        server.getStatus()))
+                .toList();
+        log.info("Saving Servers {}", serversWithoutId);
+        serverRepository.saveAll(serversWithoutId);
+        return serversWithoutId;
     }
 
     @Override
@@ -98,7 +115,7 @@ public class ServerServiceImpl implements ServerServiceI {
             InetAddress inetAddress = InetAddress.getByName(server.getIpAddress());
             server.setStatus(inetAddress.isReachable(IS_REACHABLE_TIMEOUT_IN_MILLIS) ? SERVER_UP : SERVER_DOWN);
             serverRepository.save(server);
-//            TimeUnit.MILLISECONDS.sleep(100);
+            // TimeUnit.MILLISECONDS.sleep(100);
         }
         return servers;
     }
