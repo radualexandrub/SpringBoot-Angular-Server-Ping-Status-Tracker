@@ -86,6 +86,13 @@ export class ServerService {
         .pipe(tap(console.log), catchError(this.handleError))
     );
 
+  addServers$ = (servers: Server[]) =>
+    <Observable<CustomResponse>>(
+      this.http
+        .post<CustomResponse>(`${this.apiUrl}/servers/save-all`, servers)
+        .pipe(tap(console.log), catchError(this.handleError))
+    );
+
   updateServer$ = (server: Server) =>
     <Observable<CustomResponse>>(
       this.http

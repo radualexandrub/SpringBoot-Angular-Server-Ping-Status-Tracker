@@ -151,6 +151,15 @@
           (click)="onExportListAsJSON()"
           >Export List</a
         >
+        <a
+          role="button"
+          title="Import Servers List from JSON"
+          id="importListAsJSONAnchorLink"
+          class="mr-3"
+          data-toggle="modal"
+          data-target="#importJSONFileModal"
+          >Import List</a
+        >
       </ng-container>
 
       <ng-container *ngSwitchCase="DataState.ERROR_STATE">
@@ -341,6 +350,87 @@
               class="fas fa-circle-notch fa-spin"
             ></i>
           </button>
+        </div>
+      </form>
+    </div>
+  </div>
+</div>
+
+<!-- Imports servers from JSON Modal HTML -->
+<div id="importJSONFileModal" class="modal fade">
+  <div class="modal-dialog">
+    <div class="modal-content">
+      <form
+        id="importJSONFileForm"
+        (ngSubmit)="onImportListAsJSON($event)"
+        style="accent-color: var(--primary-color)"
+      >
+        <div class="modal-header">
+          <div class="modal-title">Import Servers List from JSON file</div>
+          <button
+            type="button"
+            class="close"
+            data-dismiss="modal"
+            aria-hidden="true"
+          >
+            &times;
+          </button>
+        </div>
+
+        <div class="modal-body">
+          <!-- File Input -->
+          <div style="margin-bottom: 1rem">
+            <label for="JSONFileInput"
+              >Please select a JSON File containing a Servers List</label
+            >
+            <input type="file" id="JSONFileInput" accept=".json" />
+          </div>
+          <label
+            >Select whether to overwrite or add to current Servers list</label
+          >
+          <div>
+            <input
+              type="radio"
+              name="JSONFileRadioInputs"
+              id="JSONFileRadioConcatenateList"
+              value="JSONFileRadioConcatenateList"
+              checked="checked"
+            />
+            <label for="JSONFileRadioConcatenateList">
+              &nbsp;Add (Concatenate) to current list
+            </label>
+          </div>
+          <div style="margin-bottom: 1rem">
+            <input
+              type="radio"
+              name="JSONFileRadioInputs"
+              id="JSONFileRadioOverwriteList"
+              value="JSONFileRadioOverwriteList"
+            />
+            <label for="JSONFileRadioOverwriteList">
+              &nbsp;Overwrite current list
+              <span class="text-danger">(Deletes all Servers first)</span>
+            </label>
+          </div>
+          <div
+            id="importJSONFileFormOutputMessages"
+            style="margin-bottom: 1rem"
+          >
+            <!-- Import Output Messages will be displayed here -->
+          </div>
+        </div>
+
+        <div class="modal-footer">
+          <button
+            type="button"
+            class="btn"
+            id="closeEditModal"
+            data-dismiss="modal"
+            style="color: var(--primary-font-color)"
+          >
+            Cancel
+          </button>
+          <button type="submit" class="btn btn-primary">Upload</button>
         </div>
       </form>
     </div>

@@ -191,6 +191,30 @@ export class ServersComponent implements OnInit {
       );
   }
 
+  onAddServers(servers: Server[]): void {
+    this.appState$ = this.serverService.addServers$(servers).pipe(
+      map((response) => {
+        const currentServers =
+          this.currentServersCopyDataSubject.value?.data?.servers || [];
+        this.currentServersCopyDataSubject.next({
+          ...response,
+          data: {
+            servers: [...currentServers, ...response.data.servers!],
+          },
+        });
+        document.getElementById('closeAddModal')?.click();
+        return {
+          dataState: DataState.LOADED_STATE,
+          appData: this.currentServersCopyDataSubject.value,
+        };
+      }),
+      startWith({ dataState: DataState.LOADING_STATE }),
+      catchError((error: string) => {
+        return of({ dataState: DataState.ERROR_STATE, error });
+      })
+    );
+  }
+
   onDeleteServer(server: Server): void {
     this.appState$ = this.serverService.deleteServerById$(server.id).pipe(
       map((response) => {
@@ -265,6 +289,64 @@ export class ServersComponent implements OnInit {
     document.body.appendChild(element);
     element.click();
     document.body.removeChild(element);
+  }
+
+  onImportListAsJSON(event: Event): void {
+    event.preventDefault();
+    let filePathInput = document.getElementById(
+      'JSONFileInput'
+    ) as HTMLInputElement;
+    let importFileOutputMessage = document.getElementById(
+      'importJSONFileFormOutputMessages'
+    ) as HTMLInputElement;
+
+    if (!filePathInput.files || filePathInput.files.length === 0) {
+      importFileOutputMessage.innerHTML =
+        '<p class="text-danger">Please select a file to continue.</p>';
+      return;
+    }
+
+    const importListAsJSONonloadCallback = (
+      event: ProgressEvent<FileReader>
+    ) => {
+      const methodName = 'importListAsJSONonloadCallback()';
+      if (!event.target || !event.target.result) {
+        console.error(`${methodName} JSON parsing error`);
+        importFileOutputMessage.innerHTML =
+          '<p class="text-danger">File parsing failed. Please try again.</p>';
+        return;
+      }
+
+      let serversListFromJSON = <Server[]>(
+        JSON.parse(event.target.result as string)
+      );
+      console.debug(
+        `${methodName} JSON read ${JSON.stringify(serversListFromJSON)}`
+      );
+
+      // Concatenate or Overwrite to current Tasks list
+      let radioInput = (
+        Array.from(document.getElementsByName('JSONFileRadioInputs')).find(
+          (r) => (r as HTMLInputElement).checked
+        ) as HTMLInputElement
+      ).value;
+
+      if (radioInput === 'JSONFileRadioConcatenateList') {
+        this.onAddServers(serversListFromJSON);
+        importFileOutputMessage.innerHTML = `<p>Current list was concated with list from file.</p>`;
+      } else if (radioInput === 'JSONFileRadioOverwriteList') {
+        // TODO: Implement this
+        // importFileOutputMessage.innerHTML = `<p>Current list was overwrited with list from file.</p>`;
+        importFileOutputMessage.innerHTML = `<p class="text-danger">Current feature not implemented.</p>`;
+      }
+      (
+        document.getElementById('importJSONFileForm') as HTMLFormElement
+      ).reset();
+    };
+
+    let reader = new FileReader();
+    reader.onload = importListAsJSONonloadCallback;
+    reader.readAsText(filePathInput.files[0]);
   }
 
   onOpenModal(server: Server, modalMode: String): void {
