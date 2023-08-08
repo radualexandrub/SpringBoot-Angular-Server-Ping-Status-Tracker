@@ -88,6 +88,13 @@ public class ServerServiceImpl implements ServerServiceI {
     }
 
     @Override
+    public Boolean deleteAllServers() {
+        log.warn("Deleting All Server from DB");
+        serverRepository.deleteAll();
+        return Boolean.TRUE;
+    }
+
+    @Override
     public Server pingServer(String ipAddress) throws IOException {
         log.info("Pinging Server with ipAddress={}", ipAddress);
         Server server = serverRepository.findServerByIpAddress(ipAddress);

@@ -99,6 +99,18 @@ public class ServerResource {
                         .build());
     }
 
+    @DeleteMapping("/delete-all")
+    public ResponseEntity<Response> deleteAllServers() {
+        return ResponseEntity.ok(
+                Response.builder()
+                        .timeStamp(now())
+                        .data(Map.of("deleted", serverService.deleteAllServers()))
+                        .message("All Servers deleted")
+                        .status(OK)
+                        .statusCode(OK.value())
+                        .build());
+    }
+
     @GetMapping("/ping/{ipAddress}")
     public ResponseEntity<Response> pingServer(
             @PathVariable("ipAddress") String ipAddress) throws IOException {

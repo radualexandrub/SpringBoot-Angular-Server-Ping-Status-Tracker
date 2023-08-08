@@ -107,6 +107,13 @@ export class ServerService {
         .pipe(tap(console.log), catchError(this.handleError))
     );
 
+  deleteAllServers$ = () =>
+    <Observable<CustomResponse>>(
+      this.http
+        .delete<CustomResponse>(`${this.apiUrl}/servers/delete-all`)
+        .pipe(tap(console.log), catchError(this.handleError))
+    );
+
   pingServerById$ = (serverId: number) =>
     <Observable<CustomResponse>>(
       this.http

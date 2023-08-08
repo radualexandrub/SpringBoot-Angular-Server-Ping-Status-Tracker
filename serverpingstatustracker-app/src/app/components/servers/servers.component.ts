@@ -242,6 +242,27 @@ export class ServersComponent implements OnInit {
     );
   }
 
+  onDeleteAllServers(): void {
+    this.appState$ = this.serverService.deleteAllServers$().pipe(
+      map((response) => {
+        this.currentServersCopyDataSubject.next({
+          ...response,
+          data: {
+            servers: [],
+          },
+        });
+        return {
+          dataState: DataState.LOADED_STATE,
+          appData: this.currentServersCopyDataSubject.value,
+        };
+      }),
+      startWith({ dataState: DataState.LOADING_STATE }),
+      catchError((error: string) => {
+        return of({ dataState: DataState.ERROR_STATE, error });
+      })
+    );
+  }
+
   onUpdateServer(updateServerForm: NgForm): void {
     this.isServerRequestLoadingSubject.next(true);
     this.appState$ = this.serverService
@@ -333,11 +354,16 @@ export class ServersComponent implements OnInit {
 
       if (radioInput === 'JSONFileRadioConcatenateList') {
         this.onAddServers(serversListFromJSON);
-        importFileOutputMessage.innerHTML = `<p>Current list was concated with list from file.</p>`;
+        importFileOutputMessage.innerHTML = `<p>Current list was concatenated with list from file.</p>`;
       } else if (radioInput === 'JSONFileRadioOverwriteList') {
-        // TODO: Implement this
-        // importFileOutputMessage.innerHTML = `<p>Current list was overwrited with list from file.</p>`;
-        importFileOutputMessage.innerHTML = `<p class="text-danger">Current feature not implemented.</p>`;
+        /* Note: We cannot call the methods directly since onAddServers() method
+         * will not wait until onDeleteAllServers() finishes
+         * this.onDeleteAllServers();
+         * this.onAddServers(serversListFromJSON);
+         */
+        this.onDeleteAllServers();
+        setTimeout(() => this.onAddServers(serversListFromJSON), 100);
+        importFileOutputMessage.innerHTML = `<p>Current list was overwriten with list from file.</p>`;
       }
       (
         document.getElementById('importJSONFileForm') as HTMLFormElement
