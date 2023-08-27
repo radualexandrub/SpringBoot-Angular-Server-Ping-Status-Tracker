@@ -1,5 +1,6 @@
 @import "https://cdnjs.cloudflare.com/ajax/libs/bootstrap/4.6.2/css/bootstrap.min.css";
 @import "https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css";
+@import "../node_modules/angular-notifier/styles.css";
 
 :root {
   --background-color: hsl(201, 33%, 98%);
@@ -85,4 +86,10 @@ a {
 }
 a:hover {
   color: var(--secondary-color);
+}
+
+.notifier__notification--success,
+.notifier__notification--default {
+  background-color: var(--primary-color) !important;
+  color: #fff;
 }

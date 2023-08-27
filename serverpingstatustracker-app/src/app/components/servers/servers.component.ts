@@ -14,6 +14,7 @@ import { CustomResponse } from '../../interfaces/custom-response';
 import { DataState } from '../../enums/data-state.enum';
 import { Status } from '../../enums/status.enum';
 import { Server } from '../../interfaces/server';
+import { NotificationService } from 'src/app/services/notification.service';
 
 /**
  * @author Radu-Alexandru Bulai
@@ -48,7 +49,10 @@ export class ServersComponent implements OnInit {
   readonly isServerRequestLoading$ =
     this.isServerRequestLoadingSubject.asObservable();
 
-  constructor(private serverService: ServerService) {}
+  constructor(
+    private serverService: ServerService,
+    private notification: NotificationService
+  ) {}
 
   ngOnInit(): void {
     this.onGetServers();
@@ -71,10 +75,14 @@ export class ServersComponent implements OnInit {
     this.appState$ = this.serverService.getPingedServers$().pipe(
       map((response) => {
         this.currentServersCopyDataSubject.next(response);
+        this.notification.onSuccessMessage(
+          `${this.currentServersCopyDataSubject.value.data.servers?.length} Servers pinged`
+        );
         return { dataState: DataState.LOADED_STATE, appData: response };
       }),
       startWith({ dataState: DataState.LOADING_STATE }),
       catchError((error: string) => {
+        this.notification.onErrorMessage(error);
         return of({ dataState: DataState.ERROR_STATE, error });
       })
     );
@@ -94,6 +102,15 @@ export class ServersComponent implements OnInit {
         serversCopy![indexOfPingedServer] = response.data.server!;
         // Assign empty string to stop showing spinning loading icon
         this.ipAddressSubjectWhenPinging.next('');
+        serversCopy![indexOfPingedServer].status === 'SERVER_UP'
+          ? this.notification.onSuccessMessage(
+              `Server ${serversCopy![indexOfPingedServer].ipAddress} is online`
+            )
+          : this.notification.onWarningMessage(
+              `Server ${
+                serversCopy![indexOfPingedServer].ipAddress
+              } did not respond`
+            );
         return {
           dataState: DataState.LOADED_STATE,
           appData: this.currentServersCopyDataSubject.value,
@@ -104,6 +121,7 @@ export class ServersComponent implements OnInit {
         appData: this.currentServersCopyDataSubject.value,
       }),
       catchError((error: string) => {
+        this.notification.onErrorMessage(`Server pinging failed`);
         this.ipAddressSubjectWhenPinging.next('');
         return of({ dataState: DataState.ERROR_STATE, error });
       })
@@ -175,6 +193,7 @@ export class ServersComponent implements OnInit {
           addServerForm.resetForm({ status: this.Status.SERVER_DOWN });
           this.isServerRequestLoadingSubject.next(false);
           document.getElementById('closeAddModal')?.click();
+          this.notification.onSuccessMessage(response.message);
           return {
             dataState: DataState.LOADED_STATE,
             appData: this.currentServersCopyDataSubject.value,
@@ -186,6 +205,7 @@ export class ServersComponent implements OnInit {
         }),
         catchError((error: string) => {
           this.isServerRequestLoadingSubject.next(false);
+          this.notification.onErrorMessage(error);
           return of({ dataState: DataState.ERROR_STATE, error });
         })
       );
@@ -202,6 +222,7 @@ export class ServersComponent implements OnInit {
             servers: [...currentServers, ...response.data.servers!],
           },
         });
+        this.notification.onSuccessMessage(response.message);
         document.getElementById('closeAddModal')?.click();
         return {
           dataState: DataState.LOADED_STATE,
@@ -210,6 +231,7 @@ export class ServersComponent implements OnInit {
       }),
       startWith({ dataState: DataState.LOADING_STATE }),
       catchError((error: string) => {
+        this.notification.onErrorMessage(error);
         return of({ dataState: DataState.ERROR_STATE, error });
       })
     );
@@ -227,6 +249,7 @@ export class ServersComponent implements OnInit {
               ),
           },
         });
+        this.notification.onSuccessMessage(response.message);
         return {
           dataState: DataState.LOADED_STATE,
           appData: this.currentServersCopyDataSubject.value,
@@ -237,6 +260,7 @@ export class ServersComponent implements OnInit {
         appData: this.currentServersCopyDataSubject.value,
       }),
       catchError((error: string) => {
+        this.notification.onErrorMessage(error);
         return of({ dataState: DataState.ERROR_STATE, error });
       })
     );
@@ -251,6 +275,7 @@ export class ServersComponent implements OnInit {
             servers: [],
           },
         });
+        this.notification.onSuccessMessage(response.message);
         return {
           dataState: DataState.LOADED_STATE,
           appData: this.currentServersCopyDataSubject.value,
@@ -258,6 +283,7 @@ export class ServersComponent implements OnInit {
       }),
       startWith({ dataState: DataState.LOADING_STATE }),
       catchError((error: string) => {
+        this.notification.onErrorMessage(error);
         return of({ dataState: DataState.ERROR_STATE, error });
       })
     );
@@ -277,6 +303,7 @@ export class ServersComponent implements OnInit {
           currentServers![indexOfUpdatedServer] = response.data.server!;
           this.isServerRequestLoadingSubject.next(false);
           document.getElementById('closeEditModal')?.click();
+          this.notification.onSuccessMessage(response.message);
           return {
             dataState: DataState.LOADED_STATE,
             appData: this.currentServersCopyDataSubject.value,
@@ -288,6 +315,7 @@ export class ServersComponent implements OnInit {
         }),
         catchError((error: string) => {
           this.isServerRequestLoadingSubject.next(false);
+          this.notification.onErrorMessage(error);
           return of({ dataState: DataState.ERROR_STATE, error });
         })
       );
