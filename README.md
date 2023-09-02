@@ -25,7 +25,13 @@ Contents:
 
 ## Screenshots
 
-TODO: Add app's screenshots
+![Server Ping Status Tracker - Radu-Alexandru B](./app_demos/ServerPingStatusTrackerScreenshot_01.jpg)
+
+![Server Ping Status Tracker - Radu-Alexandru B](./app_demos/ServerPingStatusTrackerScreenshot_02.jpg)
+
+![Server Ping Status Tracker - Radu-Alexandru B](./app_demos/ServerPingStatusTrackerScreenshot_03.jpg)
+
+![Server Ping Status Tracker - Radu-Alexandru B](./app_demos/ServerPingStatusTrackerDemo_01.gif)
 
 <br/>
 
