@@ -10,6 +10,7 @@ Contents:
 
 - [Server Ping Status Tracker App with Angular and Spring Boot REST API](#server-ping-status-tracker-app-with-angular-and-spring-boot-rest-api)
   - [Screenshots](#screenshots)
+  - [App Features](#app-features)
   - [Spring Boot REST API URLs - Endpoints](#spring-boot-rest-api-urls---endpoints)
   - [Running locally with Docker 🚀](#running-locally-with-docker-)
     - [Docker resources and issues](#docker-resources-and-issues)
@@ -32,6 +33,20 @@ Contents:
 ![Server Ping Status Tracker - Radu-Alexandru B](./app_demos/ServerPingStatusTrackerScreenshot_03.jpg)
 
 ![Server Ping Status Tracker - Radu-Alexandru B](./app_demos/ServerPingStatusTrackerDemo_01.gif)
+:
+<br/>
+
+## App Features
+
+- **Track Server Status:** Monitor the status of multiple servers in your network.
+- **Ping Servers:** Initiate manual pings to update server statuses. Or, ping all servers in the list.
+- **Add Servers:** Easily add servers to the list (saved in MySQL database).
+- **Edit Server Details:** Modify server information like IP address, name, and network.
+- **Search and Filter Servers:** Search servers by IP/name/network or filter servers by status (all, up, down) to focus on specific groups.
+- **Dark mode and Custom Color Accent:** Personalize the app's UI using your favorite theme and colors (preferences are stored in local storage)!
+- **JSON Export/Import Support:** Export all existing servers to a JSON file. Add multiple servers at once from JSON to existing servers in MySQL DB.
+- **Angular Reactive Approach:** Utilizes Angular's reactive features for efficient state management.
+- **Docker Support:** Easily deploy with Docker for containerization.
 
 <br/>
 
