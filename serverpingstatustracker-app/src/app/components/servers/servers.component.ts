@@ -58,6 +58,14 @@ export class ServersComponent implements OnInit {
     this.onGetServers();
   }
 
+  public getIsServerRequestLoading$(): Observable<boolean> {
+    return this.isServerRequestLoading$;
+  }
+
+  public getEditServer$(): Observable<Server> {
+    return this.editServer$;
+  }
+
   onGetServers(): void {
     this.appState$ = this.serverService.servers$.pipe(
       map((response) => {

@@ -1,0 +1,93 @@
+<div class="modal-dialog">
+  <div class="modal-content">
+    <form #editServerForm="ngForm" (ngSubmit)="onUpdateServer(editServerForm)">
+      <div class="modal-header">
+        <div class="modal-title">
+          Edit Server "{{ (editServer$ | async)?.name }}"
+        </div>
+        <button
+          type="button"
+          class="close"
+          data-dismiss="modal"
+          aria-hidden="true"
+        >
+          &times;
+        </button>
+      </div>
+      <div class="modal-body">
+        <input
+          type="hidden"
+          ngModel="{{ (editServer$ | async)?.id }}"
+          name="id"
+        />
+        <div class="form-group">
+          <label>IP Address / FQDN *</label>
+          <input
+            type="text"
+            ngModel="{{ (editServer$ | async)?.ipAddress }}"
+            name="ipAddress"
+            class="form-control"
+            required
+          />
+        </div>
+        <div class="form-group">
+          <label>Name *</label>
+          <input
+            type="text"
+            ngModel="{{ (editServer$ | async)?.name }}"
+            name="name"
+            class="form-control"
+            required
+          />
+        </div>
+        <div class="form-group">
+          <label>Network</label>
+          <input
+            type="text"
+            ngModel="{{ (editServer$ | async)?.network }}"
+            name="network"
+            class="form-control"
+          />
+        </div>
+        <div class="form-group">
+          <label>Status</label>
+          <select
+            name="status"
+            ngModel="{{ (editServer$ | async)?.status }}"
+            class="form-control"
+            name="status"
+            required
+          >
+            <option value="SERVER_UP">SERVER UP</option>
+            <option value="SERVER_DOWN">SERVER DOWN</option>
+          </select>
+        </div>
+      </div>
+      <div class="modal-footer">
+        <button
+          type="button"
+          class="btn"
+          id="closeEditModal"
+          data-dismiss="modal"
+          style="color: var(--primary-font-color)"
+        >
+          Cancel
+        </button>
+        <button
+          type="submit"
+          class="btn btn-primary"
+          [disabled]="
+            editServerForm.invalid || (isServerRequestLoading$ | async)
+          "
+        >
+          <span *ngIf="!(isServerRequestLoading$ | async)">Update</span>
+          <span *ngIf="isServerRequestLoading$ | async">Updating...</span>
+          <i
+            *ngIf="isServerRequestLoading$ | async"
+            class="fas fa-circle-notch fa-spin"
+          ></i>
+        </button>
+      </div>
+    </form>
+  </div>
+</div>

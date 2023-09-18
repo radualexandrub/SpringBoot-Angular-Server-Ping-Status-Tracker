@@ -12,6 +12,9 @@ import { FooterComponent } from './components/footer/footer.component';
 import { ServersComponent } from './components/servers/servers.component';
 import { HeaderComponent } from './components/header/header.component';
 import { AboutPageComponent } from './components/pages/about-page/about-page.component';
+import { AddServerModalComponent } from './components/modals/add-server-modal/add-server-modal.component';
+import { EditServerModalComponent } from './components/modals/edit-server-modal/edit-server-modal.component';
+import { ImportServersModalComponent } from './components/modals/import-servers-modal/import-servers-modal.component';
 
 const appRoutes: Routes = [
   { path: '', component: ServersComponent },
@@ -24,6 +27,9 @@ const appRoutes: Routes = [
     ServersComponent,
     HeaderComponent,
     AboutPageComponent,
+    AddServerModalComponent,
+    EditServerModalComponent,
+    ImportServersModalComponent,
   ],
   imports: [
     BrowserModule,
