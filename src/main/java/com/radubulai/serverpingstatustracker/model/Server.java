@@ -31,5 +31,6 @@ public class Server {
     private String ipAddress;
     private String name;
     private String network;
+    private String details;
     private Status status;
 }

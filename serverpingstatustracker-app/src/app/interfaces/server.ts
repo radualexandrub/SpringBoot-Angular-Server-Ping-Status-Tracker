@@ -5,5 +5,6 @@ export interface Server {
   ipAddress: string;
   name: string;
   network: string;
+  details: string;
   status: Status;
 }

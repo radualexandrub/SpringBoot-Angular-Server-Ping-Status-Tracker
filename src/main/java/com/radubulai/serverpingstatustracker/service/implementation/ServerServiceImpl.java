@@ -67,6 +67,7 @@ public class ServerServiceImpl implements ServerServiceI {
                         server.getIpAddress(),
                         server.getName(),
                         server.getNetwork(),
+                        server.getDetails(),
                         server.getStatus()))
                 .toList();
         log.info("Saving Servers {}", serversWithoutId);

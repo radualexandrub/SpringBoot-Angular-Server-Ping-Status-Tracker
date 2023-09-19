@@ -25,10 +25,10 @@
 
     <select
       name="status"
+      class="form-control"
       (change)="onFilterServersByStatus($event)"
-      class="btn btn-primary"
       title="Filter Severs by Status"
-      style="margin-left: auto"
+      style="margin-left: auto; max-width: 12rem"
     >
       <option value="ALL">ALL SERVERS</option>
       <option value="SERVER_UP">SERVERS UP</option>
