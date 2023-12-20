@@ -1,29 +1,46 @@
 import { TestBed } from '@angular/core/testing';
 import { RouterTestingModule } from '@angular/router/testing';
 import { AppComponent } from './app.component';
+import {
+  NotifierContainerComponent,
+  NotifierModule,
+  NotifierService,
+} from 'angular-notifier';
+import { HeaderComponent } from './components/header/header.component';
+import { FooterComponent } from './components/footer/footer.component';
+import { ServersComponent } from './components/servers/servers.component';
+import { HttpClient, HttpHandler } from '@angular/common/http';
 
 describe('AppComponent', () => {
-  beforeEach(() => TestBed.configureTestingModule({
-    imports: [RouterTestingModule],
-    declarations: [AppComponent]
-  }));
+  let mockNotifierService;
+
+  beforeEach(() => {
+    mockNotifierService = jasmine.createSpyObj('NotifierService', [
+      'notify',
+      'getConfig',
+    ]);
+    mockNotifierService.getConfig = jasmine.createSpy().and.returnValue({});
+
+    TestBed.configureTestingModule({
+      imports: [RouterTestingModule, NotifierModule],
+      declarations: [
+        AppComponent,
+        HeaderComponent,
+        FooterComponent,
+        NotifierContainerComponent,
+      ],
+      providers: [
+        ServersComponent,
+        HttpClient,
+        HttpHandler,
+        { provide: NotifierService, useValue: mockNotifierService },
+      ],
+    });
+  });
 
   it('should create the app', () => {
     const fixture = TestBed.createComponent(AppComponent);
     const app = fixture.componentInstance;
     expect(app).toBeTruthy();
-  });
-
-  it(`should have as title 'serverpingstatustracker-app'`, () => {
-    const fixture = TestBed.createComponent(AppComponent);
-    const app = fixture.componentInstance;
-    expect(app.title).toEqual('serverpingstatustracker-app');
-  });
-
-  it('should render title', () => {
-    const fixture = TestBed.createComponent(AppComponent);
-    fixture.detectChanges();
-    const compiled = fixture.nativeElement as HTMLElement;
-    expect(compiled.querySelector('.content span')?.textContent).toContain('serverpingstatustracker-app app is running!');
   });
 });
