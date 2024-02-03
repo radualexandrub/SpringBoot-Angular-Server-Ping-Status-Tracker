@@ -514,6 +514,6 @@ The complete project (MySQL + SpringBoot BackEnd + Angular FrontEnd) can be star
 
 ## License
 
-Copyright © 2023 [Radu-Alexandru Bulai](https://radubulai.com/). All rights reserved.
+Copyright © 2023-2024 [Radu-Alexandru Bulai](https://radubulai.com/). All rights reserved.
 
 Released under [MIT License](./LICENSE).
