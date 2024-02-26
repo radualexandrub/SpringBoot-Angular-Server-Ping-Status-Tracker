@@ -25,12 +25,15 @@ import static javax.persistence.GenerationType.AUTO;
 public class Server {
     @Id
     @GeneratedValue(strategy = AUTO)
+    // Type Long = BIGINT in MySQL
     private Long id;
     @Column(nullable = false, unique = true)
     @NotEmpty(message = "IP Address cannot be empty or null")
+    // Type String = VARCHAR(255) in MySQL
     private String ipAddress;
     private String name;
     private String network;
+    @Column(columnDefinition = "TEXT")
     private String details;
     private Status status;
 }

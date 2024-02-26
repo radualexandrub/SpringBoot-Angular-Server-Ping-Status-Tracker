@@ -14,6 +14,9 @@ Contents:
   - [Spring Boot REST API URLs - Endpoints](#spring-boot-rest-api-urls---endpoints)
   - [Running locally with Docker 🚀](#running-locally-with-docker-)
     - [Docker resources and issues](#docker-resources-and-issues)
+    - [Docker container managers](#docker-container-managers)
+      - [Yacht](#yacht)
+      - [Portainer](#portainer)
   - [Installing dependencies and running locally](#installing-dependencies-and-running-locally)
     - [Clone this repository](#clone-this-repository)
     - [Configure MySQL](#configure-mysql)
@@ -417,6 +420,96 @@ failed to solve: executor failed running [/bin/sh -c ./mvnw dependency:go-offlin
   - https://stackoverflow.com/questions/19912941/convert-all-cr-to-crlf-in-text-file-using-cmd
 
 - The `mvnw` file might need to be changed according to the PC (Linux or Windows) that is running the containers
+
+<br/>
+
+### Docker container managers
+
+After we ran `docker compose up` command, we can use one of the following solutions for Docker containers monitoring.
+
+> Notes:
+> On `docker-compose.yml` file, Backend Spring REST API is running on http://localhost:8080/api/servers while Frontend Angular is running on http://localhost:8081/
+
+> In Powershell, we can run the followings to check which port is in use: ([source: How to check if a port is in use](https://stackoverflow.com/questions/6910336/how-to-check-if-a-port-is-in-use-using-powershell))
+>
+> ```bash
+> Get-NetTCPConnection | where Localport -eq 3306
+> Get-NetTCPConnection | where Localport -eq 8080
+> Get-NetTCPConnection | where Localport -eq 8081
+>
+> Get-NetTCPConnection | where Localport -eq 8000
+> Get-NetTCPConnection | where Localport -eq 8001
+> ```
+
+Inspiration from: [Yacht vs Portainer - Docker Dashboard comparison - Posted on 091-Dec-2022](https://youtu.be/bsB2dvpdBYg)
+
+<br/>
+
+#### Yacht
+
+https://yacht.sh/
+
+From https://yacht.sh/docs/Installation/Getting_Started:
+
+```bash
+docker volume create yacht
+docker run --name yacht-app -d -p 8001:8000 -v /var/run/docker.sock:/var/run/docker.sock -v yacht:/config selfhostedpro/yacht
+
+# For Windows Powershell
+docker volume create yacht
+docker run --name yacht-app -d -p 8001:8000 -v //var/run/docker.sock:/var/run/docker.sock -v yacht:/config selfhostedpro/yacht
+```
+
+Then we can access Yacht on http://localhost:8001 with the default username `admin@yacht.local` and the password `pass`.
+
+<br/>
+
+However, we might get the following error on Windows (Powershell) when after we login into the Yacht application:
+
+```
+Internal Server Error: Error while fetching server API version: ('Connection aborted.', PermissionError(13, 'Permission denied'))
+```
+
+We can solve this by [Binding to docker socket on Windows](https://stackoverflow.com/questions/36765138/bind-to-docker-socket-on-windows)
+
+<br/>
+
+Notes:
+
+- We can run `docker ps -a` to see the all containers running including `yacht-app`. And we can also see Yacht's logs by running `docker logs -f yacht-app`.
+- To stop & remove the Yacht app, we can run `docker stop yacht-app` and `docker rm yacht-app`.
+- It may happen that the Yacht application will just stop to respond/freeze (especially when we are monitoring container logs?)... we can restart the Yacht container by running `docker restart yacht-app`
+
+![Container Management App using Yacht](./app_demos/ContainerManagement_Yacht_01.jpg)
+
+<br/>
+
+#### Portainer
+
+https://www.portainer.io/
+
+From https://docs.portainer.io/start/install-ce/server/docker/linux
+
+```bash
+docker volume create portainer_data
+docker run -d -p 8000:8000 -p 9443:9443 --name portainer --restart=always -v /var/run/docker.sock:/var/run/docker.sock -v portainer_data:/data portainer/portainer-ce:latest
+
+# For Windows Powershell
+docker volume create portainer_data
+docker run -d -p 8000:8000 -p 9443:9443 --name portainer --restart=always -v //var/run/docker.sock:/var/run/docker.sock -v portainer_data:/data portainer/portainer-ce:latest
+```
+
+- We can run `docker ps -a` to see the all containers running including `portainer`
+- We can see Portainer's logs by running `docker logs -f portainer`
+- We can access the portainer application by accessing https://localhost:9443/ (By default, Portainer generates and uses a self-signed SSL certificate to secure port 9443)
+- We can create an user of `admin` and `pass12345678` (12 characters)
+- We can also restart Portainer with `docker restart portainer`
+
+![Container Management App using Portainer](./app_demos/ContainerManagement_Portainer_01.jpg)
+
+![Container Management App using Portainer](./app_demos/ContainerManagement_Portainer_02.jpg)
+
+![Container Management App using Portainer](./app_demos/ContainerManagement_Portainer_03.jpg)
 
 <br/>
 
