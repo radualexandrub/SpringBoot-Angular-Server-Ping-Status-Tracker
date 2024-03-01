@@ -14,6 +14,7 @@ Contents:
   - [Spring Boot REST API URLs - Endpoints](#spring-boot-rest-api-urls---endpoints)
   - [Running locally with Docker 🚀](#running-locally-with-docker-)
     - [Docker resources and issues](#docker-resources-and-issues)
+    - [Running Docker in RHEL 8.9](#running-docker-in-rhel-89)
     - [Docker container managers](#docker-container-managers)
       - [Yacht](#yacht)
       - [Portainer](#portainer)
@@ -423,6 +424,12 @@ failed to solve: executor failed running [/bin/sh -c ./mvnw dependency:go-offlin
 
 <br/>
 
+### Running Docker in RHEL 8.9
+
+See notes here: [Running docker compose on RedHat 8.9 Virtual Machine](./README_Docker_RedHat.md)
+
+<br/>
+
 ### Docker container managers
 
 After we ran `docker compose up` command, we can use one of the following solutions for Docker containers monitoring.
@@ -510,6 +517,18 @@ docker run -d -p 8000:8000 -p 9443:9443 --name portainer --restart=always -v //v
 ![Container Management App using Portainer](./app_demos/ContainerManagement_Portainer_02.jpg)
 
 ![Container Management App using Portainer](./app_demos/ContainerManagement_Portainer_03.jpg)
+
+<br/>
+
+👉 Note: On different systems (such as Red Hat) we might need to run the following commands ( source: https://stackoverflow.com/questions/63215054/portainer-got-permission-denied-while-trying-to-connect-to-the-docker-daemon-so ):
+
+```bash
+sudo firewall-cmd --zone=public --add-port=8000/tcp --permanent
+sudo firewall-cmd --zone=public --add-port=9443/tcp --permanent
+
+docker volume create portainer_data
+docker run --privileged -d -p 8000:8000 -p 9443:9443 --name portainer --restart=always -v /var/run/docker.sock:/var/run/docker.sock:z -v portainer_data:/data portainer/portainer-ce:latest
+```
 
 <br/>
 
