@@ -5,6 +5,7 @@ import { catchError, tap } from 'rxjs/operators';
 import { CustomResponse } from '../interfaces/custom-response';
 import { Server } from '../interfaces/server';
 import { Status } from '../enums/status.enum';
+import { environment } from 'src/environments/environment.prod';
 
 /**
  * @author Radu-Alexandru Bulai
@@ -13,7 +14,7 @@ import { Status } from '../enums/status.enum';
  */
 @Injectable({ providedIn: 'root' })
 export class ServerService {
-  private readonly apiUrl = 'http://localhost:8080/api';
+  private readonly apiUrl = `${environment.apiBaseUrl}/api`;
 
   constructor(private http: HttpClient) {}
 
