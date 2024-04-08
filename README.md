@@ -18,6 +18,7 @@ Contents:
     - [Docker container managers](#docker-container-managers)
       - [Yacht](#yacht)
       - [Portainer](#portainer)
+  - [Installing dependencies and running on CentOS 8 VM](#installing-dependencies-and-running-on-centos-8-vm)
   - [Installing dependencies and running locally](#installing-dependencies-and-running-locally)
     - [Clone this repository](#clone-this-repository)
     - [Configure MySQL](#configure-mysql)
@@ -529,6 +530,12 @@ sudo firewall-cmd --zone=public --add-port=9443/tcp --permanent
 docker volume create portainer_data
 docker run --privileged -d -p 8000:8000 -p 9443:9443 --name portainer --restart=always -v /var/run/docker.sock:/var/run/docker.sock:z -v portainer_data:/data portainer/portainer-ce:latest
 ```
+
+<br/>
+
+## Installing dependencies and running on CentOS 8 VM
+
+See notes here: [Running the application on Cent OS 8 Virtual Machine without Docker](./README_CentOS8.md.md)
 
 <br/>
 
