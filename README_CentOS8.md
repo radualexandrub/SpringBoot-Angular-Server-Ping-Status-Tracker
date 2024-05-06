@@ -1032,6 +1032,7 @@ By default, the serverpingstatustracker app runs on ports 4200 (development), 80
 firewall-cmd --zone=public --add-port=80/tcp --permanent
 firewall-cmd --zone=public --add-port=4200/tcp --permanent
 firewall-cmd --zone=public --add-port=8080/tcp --permanent
+firewall-cmd --zone=public --add-port=8081/tcp --permanent
 
 # Reload the firewall for changes to take effect.
 firewall-cmd --reload
@@ -1365,6 +1366,8 @@ http {
 - Reload/Restart nginx service
 
 ```bash
+sudo nginx -t
+sudo systemctl reload nginx
 sudo systemctl restart nginx
 ```
 

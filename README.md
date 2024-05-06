@@ -25,6 +25,7 @@ Contents:
     - [Install and Configure Java and Maven](#install-and-configure-java-and-maven)
     - [Install Node.js, npm and Angular](#install-nodejs-npm-and-angular)
     - [Running the app locally](#running-the-app-locally)
+  - [Setting a Load Balancer with Nginx](#setting-a-load-balancer-with-nginx)
   - [License](#license)
 
 <br/>
@@ -535,7 +536,7 @@ docker run --privileged -d -p 8000:8000 -p 9443:9443 --name portainer --restart=
 
 ## Installing dependencies and running on CentOS 8 VM
 
-See notes here: [Running the application on Cent OS 8 Virtual Machine without Docker](./README_CentOS8.md.md)
+See notes here: [Running the application on Cent OS 8 Virtual Machine without Docker](./README_CentOS8.md)
 
 <br/>
 
@@ -628,6 +629,12 @@ The complete project (MySQL + SpringBoot BackEnd + Angular FrontEnd) can be star
 - start the MySQL Server - Start Menu, search and open "Services", manually find MySQL80 service -> Right click it -> Start (for Linux, run `sudo systemctl start mysql.service`)
 - start the SpringBoot Back-end Server - `mvn spring-boot:run` and test on http://localhost:8080/api/servers
 - start the Front-end Angular Application - `ng serve --open` on http://localhost:4200/
+
+<br/>
+
+## Setting a Load Balancer with Nginx
+
+See notes here: [Setting a Load Balancer using Nginx](./README_LoadBalancer.md)
 
 <br/>
 
